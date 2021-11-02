@@ -1,23 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import Length from './Length';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Pomodoro Clock</h1>
+      <div className="Timers">
+        <Length title="Break Length" initialTime={5} />
+        <Length title="Session Length" initialTime={25}/>
+      </div>
+      <p className="Cred">by francof28</p>
     </div>
   );
 }

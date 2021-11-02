@@ -1,0 +1,18 @@
+.Length {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin: 80px;
+    border: solid;
+    border-radius: 10px;
+    background-color: #abb2bf;
+    color: #282c34;
+    font-family: monospace;
+}
+
+.TimeConfig {
+    display: grid;
+    grid-template-columns: 50px 200px 50px;
+    justify-items: center;
+    align-items: center;
+}

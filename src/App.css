@@ -19,7 +19,27 @@
   align-items: center;
 }
 
+.Session {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  margin: 10px;
+  border: solid;
+  border-radius: 10px;
+  background-color: #abb2bf;
+  color: #282c34;
+  font-family: monospace;
+}
+
 .Cred {
   font-size: small;
   color: white;
+}
+
+button {
+  margin: 10px;
+}
+
+h2 {
+  margin: 20px 50px 10px 50px;
 }

@@ -18,6 +18,7 @@
     align-items: center;
 }
 
-button {
+.Controler {
     padding: 9px;
+    font-size: 20px;
 }

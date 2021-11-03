@@ -5,9 +5,9 @@ const Length = ({title, initialTime, increase, decrease}) => {
         <div className="Length">
             <h3>{title}</h3>
             <div className="TimeConfig">
-                <button onClick={() => decrease()}> - </button>
+                <button className="Controler" onClick={() => decrease()}> - </button>
                 <p> {initialTime} </p>
-                <button onClick={() => increase()}> + </button>
+                <button className="Controler" onClick={() => increase()}> + </button>
             </div>
         </div>
     )

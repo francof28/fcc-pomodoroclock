@@ -8,6 +8,7 @@
     background-color: #abb2bf;
     color: #282c34;
     font-family: monospace;
+    font-size: 25px;
 }
 
 .TimeConfig {
@@ -15,4 +16,8 @@
     grid-template-columns: 50px 200px 50px;
     justify-items: center;
     align-items: center;
+}
+
+button {
+    padding: 9px;
 }

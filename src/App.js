@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import BreakLength from './BreakLength';
 import SessionLength from './SessionLength';
@@ -9,6 +9,7 @@ function App() {
   const [sessionTime, setSessionTime] = useState(25 * 60);
   const [timerOn, setTimerOn] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
+  const [currentSession, setCurrentSession] = useState('Session');
 
   const convertTime = (time) => {
     let minutes = Math.floor(time / 60);
@@ -20,6 +21,18 @@ function App() {
     return `${minutes}:${seconds}`;
   }
   
+  useEffect(() => {
+    if(sessionTime === 0){
+      if(currentSession === 'Session'){
+        setCurrentSession('Break');
+        setSessionTime(breakLength * 60);
+      } else if(currentSession === 'Break'){
+        setCurrentSession('Session');
+        setSessionTime(sessionLength * 60);
+      }
+    }
+  }, [sessionTime, currentSession, breakLength, sessionLength])
+
   /*
   const breakLengthIncrease = () => {
     setBreakLength(breakLength + 1);
@@ -68,16 +81,8 @@ function App() {
       clearInterval(intervalId);
       setIntervalId(null);
     } else {
-        const newIntervalId = setInterval(() => {
-          setSessionTime(prev => {
-            const newTimeSessionTime = prev - 1;
-            if(newTimeSessionTime >= 0){
-              return prev - 1;
-            }
-            return prev;
-          })
-        }, 1000)
-        setIntervalId(newIntervalId);
+      const newIntervalId = setInterval(() => {setSessionTime(prev => prev - 1)}, 1000)
+      setIntervalId(newIntervalId);
     }
   }
 
@@ -89,7 +94,7 @@ function App() {
         <SessionLength type="sessionLength" initialTime={sessionLength} changeLength={changeLength}/>
       </div>
       <div className="Session">
-        <h2>Session</h2>
+        <h2>{currentSession}</h2>
         <p>{convertTime(sessionTime)}</p>
         <button onClick={handleStartStop}>{isStarted? 'Stop' : 'Start'}</button>
         <button>Refresh</button>

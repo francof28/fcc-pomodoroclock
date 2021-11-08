@@ -82,7 +82,7 @@ function App() {
       clearInterval(intervalId);
       setIntervalId(null);
     } else {
-      const newIntervalId = setInterval(() => {setSessionTime(prev => prev - 1)}, 10)
+      const newIntervalId = setInterval(() => {setSessionTime(prev => prev - 1)}, 1000)
       setIntervalId(newIntervalId);
     }
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import BreakLength from './BreakLength';
 import SessionLength from './SessionLength';
@@ -7,10 +7,11 @@ function App() {
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
   const [sessionTime, setSessionTime] = useState(25 * 60);
-  const [timerOn, setTimerOn] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
   const [currentSession, setCurrentSession] = useState('Session');
+  const beepSound = useRef(null);
 
+  
   const convertTime = (time) => {
     let minutes = Math.floor(time / 60);
     let seconds = time % 60;
@@ -22,7 +23,9 @@ function App() {
   }
   
   useEffect(() => {
+
     if(sessionTime === 0){
+      beepSound.current.play();
       if(currentSession === 'Session'){
         setCurrentSession('Break');
         setSessionTime(breakLength * 60);
@@ -60,18 +63,16 @@ function App() {
 
   const changeLength = (cant, type) => {
     if(type === "breakLength") {
-      if(breakLength <= 0 && cant < 0){
+      if(breakLength <= 1 && cant < 0){
         return
       }
       setBreakLength(breakLength + cant);
     } else {
-      if(sessionLength <= 0 && cant < 0){
+      if(sessionLength <= 1 && cant < 0){
         return
       }
       setSessionLength(sessionLength + cant);
-      if(!timerOn){
-        setSessionTime((sessionLength + cant) * 60);
-      }
+      setSessionTime((sessionLength + cant) * 60);
     }
   }
 
@@ -81,23 +82,36 @@ function App() {
       clearInterval(intervalId);
       setIntervalId(null);
     } else {
-      const newIntervalId = setInterval(() => {setSessionTime(prev => prev - 1)}, 1000)
+      const newIntervalId = setInterval(() => {setSessionTime(prev => prev - 1)}, 10)
       setIntervalId(newIntervalId);
     }
+  }
+
+  const handleReset = () => {
+    clearInterval(intervalId);
+    setIntervalId(null);
+    setCurrentSession('Session');
+    setSessionLength(25);
+    setBreakLength(5);
+    setSessionTime(25 * 60);
+    beepSound.current.load();
   }
 
   return (
     <div className="App">
       <h1>Pomodoro Clock</h1>
       <div className="Timers">
-        <BreakLength type="breakLength" initialTime={breakLength} changeLength={changeLength}/>
-        <SessionLength type="sessionLength" initialTime={sessionLength} changeLength={changeLength}/>
+        <BreakLength id="break-length" type="breakLength" initialTime={breakLength} changeLength={changeLength}/>
+        <SessionLength id="session-length" type="sessionLength" initialTime={sessionLength} changeLength={changeLength}/>
       </div>
-      <div className="Session">
+      <div className="Session" id="timer-label">
         <h2>{currentSession}</h2>
-        <p>{convertTime(sessionTime)}</p>
-        <button onClick={handleStartStop}>{isStarted? 'Stop' : 'Start'}</button>
-        <button>Refresh</button>
+        <p id="time-left">{convertTime(sessionTime)}</p>
+        <button id="start_stop" onClick={handleStartStop}>{isStarted? 'Stop' : 'Start'}</button>
+        <button id="reset" onClick={handleReset}>Refresh</button>
+        <audio id="beep" ref={beepSound}>
+          <source src="https://www.soundjay.com/buttons/sounds/beep-30b.mp3" type="audio/mpeg"/>
+        </audio>
       </div>
       <p className="Cred">by francof28</p>
     </div>
